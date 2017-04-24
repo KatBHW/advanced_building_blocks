@@ -96,15 +96,19 @@ module Enumerable
     results 
   end  
 	
-  def my_map_with_proc_or_block(my_proc = nil)
+  def my_map_with_proc_or_block(my_proc=nil)
     results = []
-    if block_given?
+    if my_proc && block_given?
       self.my_each do |element|
         results << my_proc.call(yield(element))
       end
-    else
+    elsif my_proc && !block_given?
       self.my_each do |element|
         results << my_proc.call(element)    
+      end
+    else  
+      self.my_each do |element|
+        results << yield(element)
       end
     end
     results 
